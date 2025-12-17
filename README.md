@@ -34,7 +34,7 @@ System Catalyst orchestrates a modern Python stack to deliver a cohesive develop
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/systemcatalyst.git
+    git clone git@github.com:jondavid-black/systemcatalyst.git
     cd systemcatalyst
     ```
 

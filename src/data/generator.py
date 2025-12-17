@@ -1,4 +1,5 @@
 from typing import List, Dict, Any
+import re
 from sqlalchemy import (
     MetaData,
     Table,
@@ -129,3 +130,106 @@ class SchemaGenerator:
             ddl_statements.append(str(create_stmt).strip() + ";")
 
         return "\n\n".join(ddl_statements)
+
+
+class ProtobufGenerator:
+    def __init__(self, package_name: str = "systemcatalyst"):
+        self.package_name = package_name
+        self.type_mapping = {
+            DataType.INTEGER: "int32",
+            DataType.STRING: "string",
+            DataType.BOOLEAN: "bool",
+            DataType.FLOAT: "float",
+            DataType.TIMESTAMP: "google.protobuf.Timestamp",
+            DataType.JSON: "string",  # Protobuf doesn't have native JSON, typically mapped to string
+            # ENUM and REFERENCE handled dynamically
+        }
+
+    def generate_proto(self, tables: List[TableSchema]) -> str:
+        """Generates Protobuf definitions for a list of table schemas."""
+        lines = ['syntax = "proto3";', f"package {self.package_name};", ""]
+
+        # Check if we need to import Timestamp
+        has_timestamp = any(
+            col.data_type == DataType.TIMESTAMP
+            for table in tables
+            for col in table.columns
+        )
+        if has_timestamp:
+            lines.append('import "google/protobuf/timestamp.proto";')
+            lines.append("")
+
+        for table in tables:
+            # Handle Enums first
+            for col in table.columns:
+                if col.data_type == DataType.ENUM:
+                    if not col.enum_values:
+                        raise ValueError(
+                            f"Column {col.name} is of type ENUM but has no enum_values defined"
+                        )
+
+                    enum_name = col.enum_name or f"{table.name}_{col.name}_enum"
+                    # Protobuf enum conventions typically UpperCamelCase
+                    # Handle snake_case to CamelCase conversion safely
+                    if "_" in enum_name:
+                        enum_name = "".join(
+                            part[:1].upper() + part[1:]
+                            for part in enum_name.split("_")
+                            if part
+                        )
+                    else:
+                        # Ensure first letter is uppercase, preserve rest
+                        enum_name = enum_name[:1].upper() + enum_name[1:]
+
+                    lines.append(f"enum {enum_name} {{")
+                    # Protobuf enums must start with 0.
+                    # Convention: ENUM_NAME_VALUE_NAME
+                    # We need to transform the enum name from CamelCase to UPPER_SNAKE_CASE for the prefix
+                    # This regex finds the boundary where a lower case letter is followed by an upper case letter
+                    # or numbers and inserts an underscore.
+                    s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", enum_name)
+                    prefix = re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1).upper()
+
+                    # Convert values to upper snake case for the keys
+                    # e.g. "in_progress" -> "IN_PROGRESS"
+                    for idx, val in enumerate(col.enum_values):
+                        # Ensure safe identifier
+                        safe_val = val.upper().replace(" ", "_").replace("-", "_")
+                        lines.append(f"  {prefix}_{safe_val} = {idx};")
+
+                    lines.append("}")
+                    lines.append("")
+
+            # Generate Message
+            # Use UpperCamelCase for message name
+            msg_name = "".join(x.capitalize() for x in table.name.split("_"))
+            lines.append(f"message {msg_name} {{")
+
+            for idx, col in enumerate(table.columns, 1):
+                field_type = "string"  # Default fallback
+
+                if col.data_type == DataType.ENUM:
+                    enum_name = col.enum_name or f"{table.name}_{col.name}_enum"
+                    if "_" in enum_name:
+                        enum_name = "".join(
+                            part[:1].upper() + part[1:]
+                            for part in enum_name.split("_")
+                            if part
+                        )
+                    else:
+                        enum_name = enum_name[:1].upper() + enum_name[1:]
+                    field_type = enum_name
+
+                elif col.data_type == DataType.REFERENCE:
+                    # For references, we typically use the ID type of the referenced table
+                    # Defaulting to int32 as a safe bet for now, similar to SchemaGenerator
+                    field_type = "int32"
+                else:
+                    field_type = self.type_mapping.get(col.data_type, "string")
+
+                lines.append(f"  {field_type} {col.name} = {idx};")
+
+            lines.append("}")
+            lines.append("")
+
+        return "\n".join(lines)
