@@ -21,10 +21,10 @@ description: "Task list for adding BDD testing with behave"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Add `behave` to dev dependencies using `uv add --dev behave`
-- [ ] T002 Create `features/` directory structure with `steps/` and `data/` subdirectories
-- [ ] T003 [P] Create `features/environment.py` with basic before/after hooks
-- [ ] T004 [P] Create `features/steps/common_steps.py` for shared step definitions
+- [x] T001 Add `behave` to dev dependencies using `uv add --dev behave`
+- [x] T002 Create `features/` directory structure with `steps/` and `data/` subdirectories
+- [x] T003 [P] Create `features/environment.py` with basic before/after hooks
+- [x] T004 [P] Create `features/steps/common_steps.py` for shared step definitions
 
 ---
 
@@ -34,10 +34,10 @@ description: "Task list for adding BDD testing with behave"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create `features/data/valid_schema.yaml` with sample schema content (User/Post models) for testing
-- [ ] T006 [P] Create `features/data/expected_sql.txt` and `features/data/expected_proto.txt` with expected output templates
-- [ ] T007 [P] Create `features/steps/registry_steps.py` skeleton for registry interaction steps
-- [ ] T008 [P] Create `features/steps/export_steps.py` skeleton for export verification steps
+- [x] T005 Create `features/data/valid_schema.yaml` with sample schema content (User/Post models) for testing
+- [x] T006 [P] Create `features/data/expected_sql.txt` and `features/data/expected_proto.txt` with expected output templates
+- [x] T007 [P] Create `features/steps/registry_steps.py` skeleton for registry interaction steps
+- [x] T008 [P] Create `features/steps/export_steps.py` skeleton for export verification steps
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -51,10 +51,10 @@ description: "Task list for adding BDD testing with behave"
 
 ### Implementation for User Story 1
 
-- [ ] T009 [US1] Create `features/infrastructure.feature` with scenarios to check dependency installation and directory structure
-- [ ] T010 [US1] Implement steps in `features/steps/infrastructure_steps.py` to verify `behave` dependency presence
-- [ ] T011 [US1] Implement steps in `features/steps/infrastructure_steps.py` to verify `features/` directory existence
-- [ ] T012 [US1] Run `uv run behave features/infrastructure.feature` to verify infrastructure setup
+- [x] T009 [US1] Create `features/infrastructure.feature` with scenarios to check dependency installation and directory structure
+- [x] T010 [US1] Implement steps in `features/steps/infrastructure_steps.py` to verify `behave` dependency presence
+- [x] T011 [US1] Implement steps in `features/steps/infrastructure_steps.py` to verify `features/` directory existence
+- [x] T012 [US1] Run `uv run behave features/infrastructure.feature` to verify infrastructure setup
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -68,12 +68,12 @@ description: "Task list for adding BDD testing with behave"
 
 ### Implementation for User Story 2
 
-- [ ] T013 [US2] Create `features/sql_export.feature` with scenarios for loading YAML and exporting SQL
-- [ ] T014 [US2] Implement "Given a valid YAML schema definition file" step in `features/steps/registry_steps.py` (loads `features/data/valid_schema.yaml`)
-- [ ] T015 [US2] Implement "Then the registry should contain the defined schema entities" step in `features/steps/registry_steps.py`
-- [ ] T016 [US2] Implement "When I request an SQL export" step in `features/steps/export_steps.py` using `src.data.generator.SchemaGenerator`
-- [ ] T017 [US2] Implement "Then the system should generate valid SQL DDL statements" step in `features/steps/export_steps.py` (compares against `features/data/expected_sql.txt`)
-- [ ] T018 [US2] Run `uv run behave features/sql_export.feature` to verify SQL export logic
+- [x] T013 [US2] Create `features/sql_export.feature` with scenarios for loading YAML and exporting SQL
+- [x] T014 [US2] Implement "Given a valid YAML schema definition file" step in `features/steps/registry_steps.py` (loads `features/data/valid_schema.yaml`)
+- [x] T015 [US2] Implement "Then the registry should contain the defined schema entities" step in `features/steps/registry_steps.py`
+- [x] T016 [US2] Implement "When I request an SQL export" step in `features/steps/export_steps.py` using `src.data.generator.SchemaGenerator`
+- [x] T017 [US2] Implement "Then the system should generate valid SQL DDL statements" step in `features/steps/export_steps.py` (compares against `features/data/expected_sql.txt`)
+- [x] T018 [US2] Run `uv run behave features/sql_export.feature` to verify SQL export logic
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -87,10 +87,10 @@ description: "Task list for adding BDD testing with behave"
 
 ### Implementation for User Story 3
 
-- [ ] T019 [US3] Create `features/proto_export.feature` with scenarios for loading YAML and exporting ProtoBuf
-- [ ] T020 [US3] Implement "When I request a ProtoBuf export" step in `features/steps/export_steps.py` using `src.data.generator.ProtobufGenerator`
-- [ ] T021 [US3] Implement "Then the system should generate valid Protocol Buffer definitions" step in `features/steps/export_steps.py` (compares against `features/data/expected_proto.txt`)
-- [ ] T022 [US3] Run `uv run behave features/proto_export.feature` to verify ProtoBuf export logic
+- [x] T019 [US3] Create `features/proto_export.feature` with scenarios for loading YAML and exporting ProtoBuf
+- [x] T020 [US3] Implement "When I request a ProtoBuf export" step in `features/steps/export_steps.py` using `src.data.generator.ProtobufGenerator`
+- [x] T021 [US3] Implement "Then the system should generate valid Protocol Buffer definitions" step in `features/steps/export_steps.py` (compares against `features/data/expected_proto.txt`)
+- [x] T022 [US3] Run `uv run behave features/proto_export.feature` to verify ProtoBuf export logic
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -100,9 +100,9 @@ description: "Task list for adding BDD testing with behave"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T023 [P] Update `docs/quickstart.md` with instructions for running BDD tests
-- [ ] T024 Verify all BDD tests run successfully with `uv run behave`
-- [ ] T025 Add CI workflow step to run BDD tests (if CI file exists/accessible)
+- [x] T023 [P] Update `docs/quickstart.md` with instructions for running BDD tests
+- [x] T024 Verify all BDD tests run successfully with `uv run behave`
+- [x] T025 Add CI workflow step to run BDD tests (if CI file exists/accessible)
 
 ---
 

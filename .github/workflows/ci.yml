@@ -41,6 +41,9 @@ jobs:
       - name: Run Tests
         run: uv run pytest
 
+      - name: Run BDD Acceptance Tests
+        run: uv run behave
+
       - name: Build Documentation
         run: uv run mkdocs build
 

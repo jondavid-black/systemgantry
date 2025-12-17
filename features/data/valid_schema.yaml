@@ -1,0 +1,22 @@
+# features/data/valid_schema.yaml
+- name: User
+  columns:
+    - name: id
+      data_type: integer
+      primary_key: true
+    - name: username
+      data_type: string
+    - name: email
+      data_type: string
+- name: Post
+  columns:
+    - name: id
+      data_type: integer
+      primary_key: true
+    - name: title
+      data_type: string
+    - name: content
+      data_type: string
+    - name: user_id
+      data_type: integer
+      foreign_key: User.id

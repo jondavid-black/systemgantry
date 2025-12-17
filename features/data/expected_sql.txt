@@ -1,0 +1,15 @@
+CREATE TABLE `User` (
+	`id` INTEGER NOT NULL,
+	`username` VARCHAR(255),
+	`email` VARCHAR(255),
+	PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `Post` (
+	`id` INTEGER NOT NULL,
+	`title` VARCHAR(255),
+	`content` TEXT,
+	`user_id` INTEGER,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY(`user_id`) REFERENCES `User` (`id`)
+);

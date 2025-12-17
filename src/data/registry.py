@@ -32,11 +32,12 @@ class SchemaRegistry:
         """List all registered schemas."""
         return list(self._schemas.values())
 
-    def load_from_directory(self, directory: Path) -> None:
+    def load_from_directory(self, directory: Path | str) -> None:
         """
         Load all YAML schema definitions from a directory.
         Expects files to be valid YAML matching the TableSchema structure.
         """
+        directory = Path(directory)
         if not directory.exists():
             raise FileNotFoundError(f"Directory not found: {directory}")
 
