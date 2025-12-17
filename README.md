@@ -1,14 +1,14 @@
-# System Gantry
+# System Catalyst
 
-System Gantry is an opinionated framework for building digital systems tailored to specific use cases. It enables rapid, incremental development while enforcing strict architectural principles to ensure long-term maintainability and scalability.
+System Catalyst is an opinionated framework for building digital systems tailored to your custom use cases. It enables rapid, incremental development while enforcing strict architectural principles to ensure long-term maintainability and scalability.
 
 ## Core Philosophy
 
-System Gantry is built on a foundation of strict **Model-View-Controller (MVC)** separation of concerns. By enforcing clear boundaries between data, business logic, and user interface, the framework ensures that systems remain modular, testable, and adaptable to change.
+System Catalyst is built on a foundation of strict **Model-View-Controller (MVC)** separation of concerns. By enforcing clear boundaries between data, business logic, and user interface, the framework ensures that systems remain modular, testable, and adaptable to change.
 
 ## Architecture & Tech Stack
 
-System Gantry orchestrates a modern Python stack to deliver a cohesive development experience:
+System Catalyst orchestrates a modern Python stack to deliver a cohesive development experience:
 
 ### Model Layer (Data & State)
 *   **Version Control First:** We treat data with the same rigor as code.
@@ -34,8 +34,8 @@ System Gantry orchestrates a modern Python stack to deliver a cohesive developme
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/systemgantry.git
-    cd systemgantry
+    git clone https://github.com/yourusername/systemcatalyst.git
+    cd systemcatalyst
     ```
 
 2.  Install dependencies:

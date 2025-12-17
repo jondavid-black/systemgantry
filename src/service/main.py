@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 
-app = FastAPI(title="System Gantry API")
+app = FastAPI(title="System Catalyst API")
 
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to System Gantry API"}
+    return {"message": "Welcome to System Catalyst API"}
 
 
 @app.get("/health")

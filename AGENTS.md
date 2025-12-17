@@ -1,7 +1,7 @@
 # AGENTS.md - Developer Guide
 
 ## Project Overview
-System Gantry is a framework for developing digital systems tailored to specific use cases, enabling rapid, incremental development while maintaining opinionated core system design principles. The project emphasizes strict Model-View-Controller (MVC) separation of concerns across all system layers.
+System Catalyst is a framework for developing digital systems tailored to specific use cases, enabling rapid, incremental development while maintaining opinionated core system design principles. The project emphasizes strict Model-View-Controller (MVC) separation of concerns across all system layers.
 
 ## Architecture Principles
 

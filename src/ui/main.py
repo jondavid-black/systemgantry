@@ -2,13 +2,15 @@ import flet as ft
 
 
 def main(page: ft.Page):
-    page.title = "System Gantry"
+    page.title = "System Catalyst"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
     page.add(
         ft.Row(
             [
-                ft.Text("Welcome to System Gantry", size=30, weight=ft.FontWeight.BOLD),
+                ft.Text(
+                    "Welcome to System Catalyst", size=30, weight=ft.FontWeight.BOLD
+                ),
             ],
             alignment=ft.MainAxisAlignment.CENTER,
         )
