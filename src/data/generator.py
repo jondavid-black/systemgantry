@@ -10,6 +10,7 @@ from sqlalchemy import (
     DateTime,
     JSON,
     Enum,
+    ForeignKey,
     UniqueConstraint,
 )
 from sqlalchemy.schema import CreateTable
@@ -27,11 +28,16 @@ class SchemaGenerator:
             DataType.FLOAT: Float,
             DataType.TIMESTAMP: DateTime,
             DataType.JSON: JSON,
+            # REFERENCE type is handled specially in create_table_from_schema
         }
 
     def create_table_from_schema(self, schema: TableSchema) -> Table:
+        if schema.name in self.metadata.tables:
+            return self.metadata.tables[schema.name]
+
         columns = []
         for col_def in schema.columns:
+            col_type: Any
             if col_def.data_type == DataType.ENUM:
                 if not col_def.enum_values:
                     raise ValueError(
@@ -45,6 +51,13 @@ class SchemaGenerator:
                     else f"{schema.name}_{col_def.name}_enum"
                 )
                 col_type = Enum(*col_def.enum_values, name=enum_name)
+            elif col_def.data_type == DataType.REFERENCE:
+                # For foreign keys, we need to know the type of the target column.
+                # However, at this stage, we might not have the target table definition available.
+                # We assume standard integer keys for now, or we could look up the target table if we had a registry.
+                # Ideally, this would use the type of the referenced column.
+                # For now, we'll default to Integer, but this is a simplification.
+                col_type = Integer
             else:
                 col_type = self.type_mapping[col_def.data_type]
 
@@ -58,7 +71,24 @@ class SchemaGenerator:
             if col_def.default is not None:
                 col_args["server_default"] = col_def.default
 
-            column = Column(col_def.name, col_type, **col_args)
+            # Handle Foreign Key constraint
+            if col_def.data_type == DataType.REFERENCE:
+                if not col_def.reference_table:
+                    raise ValueError(
+                        f"Column {col_def.name} is of type REFERENCE but has no reference_table defined"
+                    )
+
+                ref_column = (
+                    col_def.reference_column if col_def.reference_column else "id"
+                )
+                fk_constraint = ForeignKey(f"{col_def.reference_table}.{ref_column}")
+
+                # We append the ForeignKey constraint to the column definition
+                # Note: This is one way to define it. Alternatively we could add it to the Table args.
+                column = Column(col_def.name, col_type, fk_constraint, **col_args)
+            else:
+                column = Column(col_def.name, col_type, **col_args)
+
             columns.append(column)
 
         # Build composite unique constraints

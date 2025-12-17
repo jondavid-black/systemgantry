@@ -55,6 +55,26 @@ System Gantry orchestrates a modern Python stack to deliver a cohesive developme
 
 For detailed developer guidelines, please refer to [AGENTS.md](AGENTS.md).
 
+### Data Definition to SQL
+
+You can now use this method to drive the generation process safely:
+1. Load Registry
+```python
+registry.load_from_directory(...)
+```
+2. Get safe creation order
+```python
+try:
+    ordered_tables = registry.get_ordered_schemas()
+except ValueError as e:
+    print(f"Cannot generate schema: {e}")
+    exit(1)
+```
+3. Generate DDL
+```python
+generator.generate_ddl(ordered_tables)
+```
+
 ## License
 
 [MIT License](LICENSE)

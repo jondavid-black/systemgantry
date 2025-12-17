@@ -11,6 +11,7 @@ class DataType(str, Enum):
     TIMESTAMP = "timestamp"
     JSON = "json"
     ENUM = "enum"
+    REFERENCE = "reference"
 
 
 class DataCategory(str, Enum):
@@ -73,6 +74,12 @@ class ColumnSchema(BaseModel):
     )
     enum_name: Optional[str] = Field(
         default=None, description="Name of the ENUM type (if applicable)"
+    )
+    reference_table: Optional[str] = Field(
+        default=None, description="Name of the table referenced by this column"
+    )
+    reference_column: Optional[str] = Field(
+        default="id", description="Name of the column referenced in the target table"
     )
 
 
