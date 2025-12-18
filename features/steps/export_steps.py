@@ -3,7 +3,7 @@ from behave import when, then
 from src.data.generator import SchemaGenerator, ProtobufGenerator
 
 
-@when("I request an SQL export")
+@when("I request an SQL export")  # type: ignore
 def step_impl_sql_request(context):
     generator = SchemaGenerator()
     # Need to pass list of tables to generate_ddl
@@ -15,7 +15,7 @@ def step_impl_sql_request(context):
     context.generated_sql = generator.generate_ddl(tables)
 
 
-@then("the system should generate valid SQL DDL statements")
+@then("the system should generate valid SQL DDL statements")  # type: ignore
 def step_impl_sql_check(context):
     with open("features/data/expected_sql.txt", "r") as f:
         _ = f.read().strip()
@@ -26,7 +26,7 @@ def step_impl_sql_check(context):
     assert "CREATE TABLE `Post`" in generated
 
 
-@when("I request a ProtoBuf export")
+@when("I request a ProtoBuf export")  # type: ignore
 def step_impl_proto_request(context):
     generator = ProtobufGenerator()
     # ProtoBuf message order matters less, but list_schemas is fine
@@ -34,7 +34,7 @@ def step_impl_proto_request(context):
     context.generated_proto = generator.generate_proto(tables)
 
 
-@then("the system should generate valid Protocol Buffer definitions")
+@then("the system should generate valid Protocol Buffer definitions")  # type: ignore
 def step_impl_proto_check(context):
     with open("features/data/expected_proto.txt", "r") as f:
         _ = f.read().strip()

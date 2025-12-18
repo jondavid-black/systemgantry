@@ -1,0 +1,121 @@
+Creating workflow nodes...
+Creating edges...
+Assembling Workflow Definition...
+
+Workflow Created: Sample Approval Workflow (49ef6608-9eb4-470c-93bb-9caa7517ec39)
+Nodes: 8
+Edges: 8
+
+Validating Workflow...
+✅ Validation Passed!
+
+JSON Serialization Test:
+{
+  "id": "49ef6608-9eb4-470c-93bb-9caa7517ec39",
+  "name": "Sample Approval Workflow",
+  "description": "A test workflow with all node types",
+  "use_case_id": "UC-101",
+  "nodes": [
+    {
+      "id": "node-1",
+      "label": "Start Request",
+      "type": "TRIGGER",
+      "properties": {
+        "event_type": "http_request"
+      }
+    },
+    {
+      "id": "node-2",
+      "label": "Validate Data",
+      "type": "PROCESS",
+      "properties": {
+        "description": "Validates incoming payload",
+        "handler_ref": "services.validation.validate"
+      }
+    },
+    {
+      "id": "node-3",
+      "label": "Is Valid?",
+      "type": "DECISION",
+      "properties": {}
+    },
+    {
+      "id": "node-4",
+      "label": "Split Processing",
+      "type": "BRANCH",
+      "properties": {}
+    },
+    {
+      "id": "node-5",
+      "label": "Process A",
+      "type": "PROCESS",
+      "properties": {
+        "description": "Do A",
+        "handler_ref": null
+      }
+    },
+    {
+      "id": "node-6",
+      "label": "Process B",
+      "type": "PROCESS",
+      "properties": {
+        "description": "Do B",
+        "handler_ref": null
+      }
+    },
+    {
+      "id": "node-7",
+      "label": "Merge Results",
+      "type": "JOIN",
+      "properties": {}
+    },
+    {
+      "id": "node-8",
+      "label": "End",
+      "type": "COMPLETION",
+      "properties": {}
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "node-1",
+      "target_id": "node-2",
+      "condition": null
+    },
+    {
+      "source_id": "node-2",
+      "target_id": "node-3",
+      "condition": null
+    },
+    {
+      "source_id": "node-3",
+      "target_id": "node-4",
+      "condition": "true"
+    },
+    {
+      "source_id": "node-4",
+      "target_id": "node-5",
+      "condition": null
+    },
+    {
+      "source_id": "node-4",
+      "target_id": "node-6",
+      "condition": null
+    },
+    {
+      "source_id": "node-5",
+      "target_id": "node-7",
+      "condition": null
+    },
+    {
+      "source_id": "node-6",
+      "target_id": "node-7",
+      "condition": null
+    },
+    {
+      "source_id": "node-7",
+      "target_id": "node-8",
+      "condition": null
+    }
+  ]
+}

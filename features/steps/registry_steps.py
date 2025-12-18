@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 
 
-@given('a valid YAML schema definition file "{filename}"')
+@given('a valid YAML schema definition file "{filename}"')  # type: ignore
 def step_impl_load_schema(context, filename):
     context.registry = SchemaRegistry()
     # Ensure absolute path and use Path object
@@ -14,7 +14,7 @@ def step_impl_load_schema(context, filename):
     context.registry.load_from_directory(schema_dir)
 
 
-@then("the registry should contain the defined schema entities")
+@then("the registry should contain the defined schema entities")  # type: ignore
 def step_impl_verify_registry(context):
     # Verify User and Post entities are present
     assert context.registry.get_schema("User") is not None

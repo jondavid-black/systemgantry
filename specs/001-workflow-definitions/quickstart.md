@@ -11,21 +11,25 @@ The models are part of the core source. No extra installation required.
 ### 1. Creating a Workflow (Python)
 
 ```python
-from src.models.workflow import WorkflowDefinition, ProcessNode, TriggerNode, WorkflowEdge
+from src.models.workflow.node import TriggerNode, ProcessNode, WorkflowEdge
+from src.models.workflow.definition import WorkflowDefinition
+from src.models.workflow.properties import TriggerProps, ProcessProps
+from src.models.workflow.enums import WorkflowNodeType
+from uuid import uuid4
 
 # 1. Define Nodes
 trigger = TriggerNode(
     id="start", 
     label="Start Event", 
-    type="TRIGGER",
-    properties={"event_type": "manual"}
+    type=WorkflowNodeType.TRIGGER,
+    properties=TriggerProps(event_type="manual")
 )
 
 step1 = ProcessNode(
     id="step-1", 
     label="Approver Step", 
-    type="PROCESS",
-    properties={"handler_ref": "services.approvals.request"}
+    type=WorkflowNodeType.PROCESS,
+    properties=ProcessProps(handler_ref="services.approvals.request")
 )
 
 # 2. Define Edges
@@ -41,6 +45,7 @@ wf = WorkflowDefinition(
 )
 
 # 4. Validate (Graph Check)
+from src.models.workflow.validation import validate_workflow
 errors = validate_workflow(wf)
 if errors:
     print("Invalid structure:", errors)
@@ -52,10 +57,26 @@ The `validate_workflow` function checks:
 - **Cycles**: No infinite loops (unless explicitly allowed, currently warnings).
 - **Integrity**: Edges must point to existing Node IDs.
 
-### 3. Database Persistence
-Use standard SQLAlchemy sessions:
-```python
-session.add(wf_model)
-session.commit()
+### 3. Example Output
+Running `src/scripts/seed_workflow.py` produces:
+
+```json
+{
+  "id": "49ef6608-9eb4-470c-93bb-9caa7517ec39",
+  "name": "Sample Approval Workflow",
+  "description": "A test workflow with all node types",
+  "use_case_id": "UC-101",
+  "nodes": [
+    {
+      "id": "node-1",
+      "label": "Start Request",
+      "type": "TRIGGER",
+      "properties": {
+        "event_type": "http_request"
+      }
+    },
+    ...
+  ],
+  "edges": [ ... ]
+}
 ```
-(Note: `wf_model` is the SQLAlchemy mapping of the Pydantic object).
