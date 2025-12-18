@@ -83,3 +83,10 @@ Python project (greenfield - no source code yet)
 ## Notes
 - .gitignore prepared for modern Python tooling (ruff, mypy, pytest, jupyter)
 - No existing Cursor rules or Copilot instructions found
+
+## Active Technologies
+- Python 3.12 (inferred from `pyproject.toml` and modern tooling) (001-workflow-data-model)
+- File system (YAML files in `src/definitions/workflows`). (001-workflow-data-model)
+
+## Recent Changes
+- 001-workflow-data-model: Added Python 3.12 (inferred from `pyproject.toml` and modern tooling)
